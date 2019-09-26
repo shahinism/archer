@@ -1,7 +1,0 @@
----
-- name: restart unbound
-  service: name=unbound state=restarted
-
-- name: restart roothints
-  service: name=roothints.timer state=restarted
-  when: unbound.roothints_update == "all"

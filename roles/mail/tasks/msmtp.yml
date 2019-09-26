@@ -48,12 +48,12 @@
     - cron
 
 - name: Copy msmtpq script
-  copy: src=/usr/share/doc/msmtp/msmtpq/msmtpq dest=/usr/local/bin/ mode=0755
+  shell: 'cp /usr/share/doc/msmtp/msmtpq/msmtpq /usr/local/bin/ && chmod 0755 /usr/local/bin/msmtpq'
   tags:
     - msmtp
 
 - name: Copy msmtp-queue script
-  copy: src=/usr/share/doc/msmtp/msmtpq/msmtp-queue dest=/usr/local/bin/ mode=0755
+  shell: 'cp /usr/share/doc/msmtp/msmtpq/msmtp-queue /usr/local/bin/ && chmod 0755 /usr/local/bin/msmtp-queue'
   tags:
     - msmtp
 

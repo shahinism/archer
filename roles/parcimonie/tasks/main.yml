@@ -1,8 +1,0 @@
----
-- name: Push parcimonie.sh user configuration
-  template: src=user.conf.j2 dest=/etc/parcimonie.sh.d/{{ user.name }}.conf
-
-- include_tasks: roles/nmtrust/tasks/unit.yml
-  vars:
-      unit: "parcimonie.sh@{{ user.name }}.service"
-      run_on: "{{ tor.run_on }}"

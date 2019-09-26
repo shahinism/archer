@@ -1,5 +1,0 @@
----
-- include_tasks: roles/nmtrust/tasks/unit.yml
-  vars:
-      unit: localtime.service
-      run_on: "{{ localtime.run_on }}"

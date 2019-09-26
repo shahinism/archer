@@ -17,6 +17,3 @@
 
 - name: Install pasystray
   pacman: name=pasystray state=present
-
-- name: Push pamute
-  copy: src=pamute/pamute dest=/usr/local/bin/pamute mode=0755

@@ -1,3 +1,0 @@
----
-- name: Install Viking
-  pacman: name=viking state=present

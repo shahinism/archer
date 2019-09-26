@@ -25,11 +25,3 @@
   notify:
     - reload systemd config
     - restart mailsync
-
-- include_tasks: roles/nmtrust/tasks/unit.yml
-  vars:
-      unit: mailsync.timer
-      run_on: "{{ mail.sync_on }}"
-      user_unit: true
-  tags:
-    - mailsync
