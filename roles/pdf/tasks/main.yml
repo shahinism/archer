@@ -67,18 +67,6 @@
   tags:
     - pdfgrep
 
-- name: Install OCRmyPDF and dependencies
-  aur:
-    name:
-      - python-pdfminer.six
-      - python-pikepdf
-      - python-ruffus
-      - ocrmypdf
-    user: "{{ user.name }}"
-  tags:
-    - ocrmypdf
-    - aur
-
 - name: Install tesseract-data-eng
   pacman:
     name: tesseract-data-eng

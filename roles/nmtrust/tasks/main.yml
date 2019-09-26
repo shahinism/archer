@@ -1,11 +1,4 @@
 ---
-- name: Install nmtrust
-  aur:
-      name: nmtrust-git
-      user: "{{ user.name }}"
-  tags:
-    - aur
-
 - name: Create nmtrust config directory
   file:
       path: /etc/nmtrust

@@ -8,8 +8,6 @@
 - include: feh.yml
 - include: imv.yml
 - include: mcomix.yml
-- include: teiler.yml
-- include: flac2all.yml
 - include: darktable.yml
 - include: qcode.yml
 
@@ -24,15 +22,6 @@
       - perl-image-exiftool
       - opus-tools
     state: present
-
-- name: Install Metadata Anonymisation Toolkit
-  aur:
-    name: mat2
-    user: "{{ user.name }}"
-    skip_pgp: yes
-  tags:
-    - aur
-    - mat
 
 - name: Install youtube-dl
   pacman:

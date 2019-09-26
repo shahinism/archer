@@ -1,9 +1,4 @@
 ---
-- name: Install localtime
-  aur: name=localtime-git user={{ user.name }}
-  tags:
-    - aur
-
 - include_tasks: roles/nmtrust/tasks/unit.yml
   vars:
       unit: localtime.service

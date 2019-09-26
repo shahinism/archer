@@ -1,9 +1,4 @@
 ---
-- name: Install parcimonie.sh
-  aur: name=parcimonie-sh-git user={{ user.name }}
-  tags:
-    - aur
-
 - name: Push parcimonie.sh user configuration
   template: src=user.conf.j2 dest=/etc/parcimonie.sh.d/{{ user.name }}.conf
 

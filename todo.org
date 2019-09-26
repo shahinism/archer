@@ -1,5 +1,5 @@
 * To-Dos
-** TODO Drop AUR support
+** DONE Drop AUR support
 ** TODO Minimize the installed package lists
 ** TODO Drop unnecessary roles
 ** TODO Partition the target System

@@ -18,23 +18,6 @@
     regexp: "^COMPRESSXZ"
     line: "COMPRESSXZ=(xz -c -z - --threads=0)"
 
-- name: Create AUR directory
-  file: path=/home/{{ user.name }}/{{ aur.dir }}
-        state=directory
-        owner={{ user.name }}
-        group={{ user.group }}
-  tags:
-    - aur
-    - packages
-
-- name: Install AUR base packages
-  aur:
-    name: "{{ aur.packages }}"
-    user: "{{ user.name }}"
-  tags:
-    - aur
-    - packages
-
 - name: Push pacman cache cleanup service
   copy: src=paccache.service dest=/etc/systemd/system/paccache.service
   notify:

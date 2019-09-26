@@ -2,12 +2,6 @@
 - name: Install chrony
   pacman: name=chrony state=present
 
-- name: Install chrony networkmanager dispatcher
-  aur: name=networkmanager-dispatcher-chrony user={{ user.name }}
-  tags:
-    - aur
-    - networkmanager
-
 - name: Push chrony configuration file
   copy: src=chrony.conf dest=/etc/chrony.conf
   notify:

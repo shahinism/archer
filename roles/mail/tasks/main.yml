@@ -40,19 +40,6 @@
     name: notmuch
     state: present
 
-- name: Install mutt-ics
-  aur:
-    name: mutt-ics
-    user: "{{ user.name }}"
-  tags:
-    - aur
-
-- name: Push mutt-mailto script
-  copy:
-    src: mutt-mailto.sh
-    dest: /usr/local/bin/mutt-mailto
-    mode: 0755
-
 - name: Create local desktop application dir
   file:
     path: /usr/local/share/applications

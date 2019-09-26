@@ -41,10 +41,3 @@
   pacman:
     name: "{{ base_fonts }}"
     state: present
-
-- name: Install AUR fonts
-  aur:
-    name: "{{ aur_fonts }}"
-    user: "{{ user.name }}"
-  tags:
-    - aur

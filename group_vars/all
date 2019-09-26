@@ -15,16 +15,6 @@ dotfiles:
     destination: projects/dotfiles
     rcup_flags: -fx README.md
 
-aur:
-    dir: aur
-    packages:
-        - yay
-        - downgrade
-        - zplug
-        - miller
-        - myrepos
-        - ctmg
-
 ssh:
     port: 22
     user_key: /root/id_rsa
@@ -282,16 +272,6 @@ base_fonts:
     - ttf-liberation
     - ttf-opensans
     - ttf-ubuntu-font-family
-
-aur_fonts:
-    - ttf-courier-prime
-    - ttf-heuristica
-    - ttf-merriweather
-    - ttf-merriweather-sans
-    - ttf-oswald
-    - ttf-quintessential
-    - ttf-signika
-    - ttf-symbola
 
 syncthing:
     run_on: trusted

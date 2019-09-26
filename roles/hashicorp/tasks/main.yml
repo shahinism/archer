@@ -18,11 +18,3 @@
   pacman:
     name: vault
     state: present
-
-- name: Install nomad
-  aur:
-    name:
-      - nomad
-    user: "{{ user.name }}"
-  tags:
-    - aur
