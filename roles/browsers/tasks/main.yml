@@ -1,9 +1,4 @@
 ---
-- name: Install w3m
-  pacman:
-    name: w3m
-    state: present
-
 - name: Install Firefox
   pacman:
     name: firefox
@@ -69,36 +64,6 @@
   tags:
     - chromium
     - firejail
-
-- name: Install Pepper Flash
-  pacman:
-    name: pepper-flash
-    state: present
-  tags:
-    - chromium
-
-- name: Install qutebrowser
-  pacman:
-    name: qutebrowser
-    state: present
-  tags:
-    - qutebrowser
-
-- name: Jail qutebrowser
-  file:
-    src: /usr/bin/firejail
-    dest: /usr/local/bin/qutebrowser
-    state: link
-  tags:
-    - qutebrowser
-    - firejail
-
-- name: Install pdfjs for qutebrowser
-  pacman:
-    name: pdfjs
-    state: present
-  tags:
-    - qutebrowser
 
 - name: Push rofi browser chooser
   template:
