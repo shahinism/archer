@@ -1,0 +1,9 @@
+* To-Dos
+** TODO Drop AUR support
+** TODO Minimize the installed package lists
+** TODO Drop unnecessary roles
+** TODO Partition the target System
+** TODO Install a basic bootable system
+** TODO Setup encrypted boot partition (using [[https://github.com/xmikos/cryptboot][cryptoboot]])
+** TODO Is it possible to customize grub's password prompt message?
+** TODO Automatically add ~script.nsh~ when provisioning a inside a virtualbox machine
