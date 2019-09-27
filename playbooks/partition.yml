@@ -1,0 +1,111 @@
+---
+- hosts: all
+  vars_prompt:
+    - name: luks_password
+      prompt: "Enter main disks encryption password"
+      private: yes
+      confirm: yes
+  tasks:
+    - name: wipe the disk drive
+      shell: dd if=/dev/zero of=/dev/sda bs=512 count=1 conv=notrunc
+    - name: set GPT label on /dev/sda
+      parted:
+        device: /dev/sda
+        label: gpt
+    - name: create EFI partition
+      parted:
+        device: /dev/sda
+        number: 1
+        part_end: 101MiB
+        state: present
+    - name: create Boot partition
+      parted:
+        device: /dev/sda
+        number: 2
+        part_start: 101MiB
+        part_end: 351MiB
+        state: present
+    - name: create main partition
+      parted:
+        device: /dev/sda
+        number: 3
+        part_start: 351MiB
+        part_end: 100%
+        state: present
+    - name: random fill EFI partition
+      shell: shred --verbose --random-source=/dev/urandom --iterations=1 /dev/sda1
+    - name: create Fat32 filesystem on EFI partition
+      filesystem:
+        dev: /dev/sda1
+        fstype: vfat
+        opts: -F 32
+    - name: random fill the Boot partition
+      shell: shred --verbose --random-source=/dev/urandom --iterations=1 /dev/sda2
+    - name: encrypt the Boot partition
+      shell: echo "{{ luks_password }}" | cryptsetup luksFormat --type luks1 /dev/sda2
+    - name: open the Boot partiotion
+      shell: echo "{{ luks_password }}" | cryptsetup open /dev/sda2 bootLuks
+    - name: create ext4 filesystem on the Boot partition
+      filesystem:
+        dev: /dev/mapper/bootLuks
+        fstype: ext4
+    - name: random fill Main partition
+      shell: shred --verbose --random-source=/dev/urandom --iterations=1 /dev/sda3
+    - name: encrypt the main partition
+      shell: echo "{{ luks_password }}" | cryptsetup -c aes-xts-plain64 -h sha512 -s 512 --use-random luksFormat /dev/sda3
+    - name: open main partiotion
+      shell: echo "{{ luks_password }}" | cryptsetup open /dev/sda3 mainLuks
+    - name: Create a volume group on top of main partition's encrypted storage
+      lvg:
+        vg: arch
+        pvs: /dev/mapper/mainLuks
+    - name: Create a logical volume for SWAP
+      lvol:
+        vg: arch
+        lv: swap
+        size: 512M
+    - name: Create a logical volume for /root
+      lvol:
+        vg: arch
+        lv: root
+        size: 10G
+    - name: Create a logical volume for /root/home
+      lvol:
+        vg: arch
+        lv: home
+        size: 100%FREE
+    - name: Make SWAP
+      shell: mkswap /dev/mapper/arch-swap
+      # consider setting swapiness https://github.com/ansible/ansible/issues/5241
+    - name: create BTRFS filesystem on root partition
+      filesystem:
+        dev: /dev/mapper/arch-root
+        fstype: btrfs
+    - name: create BTRFS filesystem on home partition
+      filesystem:
+        dev: /dev/mapper/arch-home
+        fstype: btrfs
+    - name: mount root partition
+      mount:
+        path: /mnt/
+        src: /dev/mapper/arch-root
+        fstype: btrfs
+        state: mounted
+    - name: mount home partition
+      mount:
+        path: /mnt/home
+        src: /dev/mapper/arch-home
+        fstype: btrfs
+        state: mounted
+    - name: mount boot partition
+      mount:
+        path: /mnt/boot
+        src: /dev/mapper/bootLuks
+        fstype: ext4
+        state: mounted
+    - name: mount EFI partition
+      mount:
+        path: /mnt/boot/efi
+        src: /dev/sda1
+        fstype: vfat
+        state: mounted
