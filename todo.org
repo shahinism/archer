@@ -2,8 +2,9 @@
 ** DONE Drop AUR support
 ** DONE Minimize the installed package lists
 ** DONE Drop unnecessary roles
-** TODO Partition the target System
-** TODO Install a basic bootable system
+** DONE Partition the target System
+** DONE Install a basic bootable system
+** TODO Automatically set the SWAP size to support hibernate
 ** TODO Setup encrypted boot partition (using [[https://github.com/xmikos/cryptboot][cryptoboot]])
 ** TODO Is it possible to customize grub's password prompt message?
 ** TODO Automatically add ~script.nsh~ when provisioning a inside a virtualbox machine
