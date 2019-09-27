@@ -1,0 +1,89 @@
+---
+- hosts: all
+  vars_prompt:
+    - name: host_name
+      prompt: "Enter the Host Name:"
+      private: no
+  tasks:
+    - name: install basic system
+      shell: pacstrap /mnt "{{ item }}"
+      with_items:
+        - base
+        - python
+        - lvm2
+        - grub-efi-x86_64
+        - efibootmgr
+        - dialog
+        - wpa_supplicant
+        - btrfs-progs
+        - openssh
+        - vim
+    - name: generate fstab
+      shell: genfstab -U /mnt >> /mnt/etc/fstab
+    - name: remove default timezone config
+      file:
+        path: /mnt/etc/localtime
+        state: absent
+    - name: link correct timezone config
+      file:
+        # TODO make me configurable
+        src: /mnt/usr/share/zoneinfo/Iran
+        dest: /mnt/etc/localtime
+        state: link
+    - name: set hardware clock to UTC
+      shell: arch-chroot /mnt hwclock --systohc --utc
+    - name: assign the host name
+      copy:
+        dest: /mnt/etc/hostname
+        content: "{{ host_name }}"
+    - name: config locale-gen
+      lineinfile:
+        dest: /mnt/etc/locale.gen
+        regexp: '^#en_US.UTF-8 UTF-8.*'
+        line: 'en_US.UTF-8 UTF-8'
+    - name: config locale
+      copy:
+        dest: /mnt/etc/locale.conf
+        content: 'LANG=en_US.UTF-8'
+    - name: run locale-gen
+      shell: arch-chroot /mnt locale-gen
+    - name: configure initrd hooks
+      lineinfile:
+        dest: /mnt/etc/mkinitcpio.conf
+        regexp: "^HOOKS.*"
+        line: "HOOKS=(base udev autodetect modconf block keymap encrypt lvm2 resume filesystems keyboard fsck)"
+    - name: generate initrd
+      shell: arch-chroot /mnt mkinitcpio -p linux
+    - name: configure grub crypt
+      lineinfile:
+        dest: /mnt/etc/default/grub
+        regexp: '^GRUB_ENABLE_CRYPTODISK=y'
+        line: 'GRUB_ENABLE_CRYPTODISK=y'
+    - name: install grub
+      shell: arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ArchLinux --recheck
+    - name: configure grub command line
+      lineinfile:
+        dest: /mnt/etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX.*'
+        line: 'GRUB_CMDLINE_LINUX="cryptdevice=/dev/sda3:system resume=/dev/mapper/arch-swap"'
+    - name: fix grub-mkconfig hag https://bbs.archlinux.org/viewtopic.php?id=242594
+      mount:
+        path: /mnt/hostlvm
+        src: /run/lvm
+        fstype: auto
+        opts: bind
+        state: mounted
+    - name: copy grub updater
+      copy:
+        src: files/scripts/update_grub.sh
+        dest: /mnt/update_grub.sh
+        mode: 0644
+    - name: generate grub config
+      shell: arch-chroot /mnt bash /update_grub.sh
+    - name: remove boot related partitions from fstab
+      # TODO comment lines instead of removing them
+      lineinfile:
+        path: /mnt/etc/fstab
+        regexp: '.*\/boot.*'
+        state: absent
+
