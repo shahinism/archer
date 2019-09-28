@@ -3,3 +3,9 @@
 *.retry
 group_vars/all
 hosts
+
+
+### direnv ###
+
+.direnv
+.envrc
