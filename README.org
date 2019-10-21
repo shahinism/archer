@@ -5,3 +5,12 @@
 
   A very opinionated fork of the great [[https://github.com/pigmonkey/spark][Spark]] [[https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html][playbook]] to install [[https://www.archlinux.org][Arch Linux]] on
   my machines the way I like it.
+
+* Goals
+  - [X] Fully encrypted installation
+  - [X] Automated paritioning
+  - [X] Automated base system install
+  - [X] Automated basic desktop environment install (i3)
+  - [ ] Encrypted boot partition (using cryptoboot)
+  - [ ] Firewall
+  - [ ] Sandboxed user space applications
