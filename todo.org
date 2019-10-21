@@ -4,7 +4,7 @@
 ** DONE Drop unnecessary roles
 ** DONE Partition the target System
 ** DONE Install a basic bootable system
-** TODO Automatically set the SWAP size to support hibernate
+** DONE Automatically set the SWAP size to support hibernate
 ** TODO Setup encrypted boot partition (using [[https://github.com/xmikos/cryptboot][cryptoboot]])
 ** TODO Is it possible to customize grub's password prompt message?
 ** TODO Automatically add ~script.nsh~ when provisioning a inside a virtualbox machine
@@ -14,3 +14,5 @@
 ** TODO Generate user's SSH key
 ** TODO Install TeXLive using it's own DVD
 ** TODO Support BSPWM installation
+** TODO [[https://simpleit.rocks/linux/ubuntu/start-emacs-in-ubuntu-the-right-way/][Run emacs as a server]]
+** TODO Add a script to automatically download and verify Arch iso

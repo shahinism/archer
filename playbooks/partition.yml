@@ -63,12 +63,15 @@
       lvol:
         vg: arch
         lv: swap
-        size: 512M
+        size: "{{ (ansible_memtotal_mb + 1024) | int | abs }}"
     - name: Create a logical volume for /root
       lvol:
         vg: arch
         lv: root
-        size: 10G
+        size: 20G  # For now I'm going with suggested size from the Arch wiki:
+                   # https://wiki.archlinux.org/index.php/Partitioning#/ It may
+                   # be needed to get increased or calculated automatically in
+                   # future
     - name: Create a logical volume for /root/home
       lvol:
         vg: arch
