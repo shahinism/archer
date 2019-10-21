@@ -5,6 +5,10 @@
 ** DONE Partition the target System
 ** DONE Install a basic bootable system
 ** DONE Automatically set the SWAP size to support hibernate
+** TODO Fix "configure initrd hooks" task
+   #+BEGIN_SRC sh
+     fatal: [127.0.0.1]: FAILED! => {"changed": false, "msg": "Destination /mnt/etc/mkinitcpio.conf does not exist !", "rc": 257}
+   #+END_SRC
 ** TODO Setup encrypted boot partition (using [[https://github.com/xmikos/cryptboot][cryptoboot]])
 ** TODO Is it possible to customize grub's password prompt message?
 ** TODO Automatically add ~script.nsh~ when provisioning a inside a virtualbox machine
